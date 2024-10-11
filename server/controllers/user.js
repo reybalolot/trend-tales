@@ -5,7 +5,7 @@ import { createAccessToken } from "../utils/auth.js";
 
 const registerUser = (req, res) => {
     try {
-        const { firstName, lastName, email, password } = req.body;
+        const { firstName, lastName, username, email, password } = req.body;
 
         //validation
         const nameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/;
@@ -29,6 +29,7 @@ const registerUser = (req, res) => {
             const newUser = new User({
                 firstName: firstName,
                 lastName: lastName,
+                username: username,
                 email: email,
                 password: bcrypt.hashSync(password, 10),
             });
