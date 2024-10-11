@@ -7,7 +7,7 @@ import passport from "passport";
 import "./utils/passport.js";
 
 //routes
-import userRoutes from './routes/user';
+import userRoutes from './routes/user.js';
 
 //configs
 dotenv.config();
@@ -35,7 +35,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //mongodb connection
-mongoose.connect(process.env.MONGODB_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_CONNECTION_STRING);
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 mongoose.connection.once('open', () => console.log('Connected to MongoDB'));
 
