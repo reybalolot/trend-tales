@@ -1,0 +1,28 @@
+.main-container {
+    padding: 0 25%;
+}
+
+.navbar {
+    background-color: #37bc9b;
+}
+
+.text-small {
+    font-size: .8rem;
+}
+
+.text-xs {
+    font-size: .6rem;
+}
+
+
+@media screen and (max-width: 600px) {
+    .main-container {
+        padding: 0;
+    }
+}
+
+@media screen and (min-width: 600px) and (max-width: 990px) {
+    .main-container {
+        padding: 0 10%;
+    }
+}

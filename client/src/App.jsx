@@ -5,6 +5,8 @@ import { jwtDecode } from 'jwt-decode';
 import UserContext from './context/UserContext.js';
 import NavigationBar from './components/NavigationBar.jsx';
 import Login from './pages/Login.jsx';
+import Registration from './pages/Register.jsx';
+import Blogs from './pages/Blogs.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 
@@ -44,15 +46,16 @@ function App() {
     <>
       <UserContext.Provider value={{user, setUser, unsetUser}}>
         <Router>
-            <Container>
-              <NavigationBar/>
-              <Routes>
-                <Route path="/" element={<Login/>}/>
-                {/* <Route path="/login" element={<LoginPage/>}/>
-                <Route path="/register" element={<RegistrationPage/>}/>
-                <Route path="/movies" element={<MoviesPage/>}/> */}
-              </Routes>
-            </Container>
+              <div className='main-container'>
+                <NavigationBar/>
+                <Routes>
+                  <Route path="/" element={<Blogs/>}/>
+                  <Route path="/login" element={<Login/>}/>
+                  <Route path="/register" element={<Registration/>}/>
+                  <Route path="/blogs" element={<Blogs/>}/>
+                  {/* <Route path="/movies" element={}/> */}
+                </Routes>
+                  </div>
           </Router>
       </UserContext.Provider>
     </>
