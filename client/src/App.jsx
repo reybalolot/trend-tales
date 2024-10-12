@@ -7,6 +7,7 @@ import NavigationBar from './components/NavigationBar.jsx';
 import Login from './pages/Login.jsx';
 import Registration from './pages/Register.jsx';
 import Blogs from './pages/Blogs.jsx';
+import Post from './pages/Post.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 
@@ -53,7 +54,7 @@ function App() {
                   <Route path="/login" element={<Login/>}/>
                   <Route path="/register" element={<Registration/>}/>
                   <Route path="/blogs" element={<Blogs/>}/>
-                  {/* <Route path="/movies" element={}/> */}
+                  <Route path="/post" element={<Post/>}/>
                 </Routes>
                   </div>
           </Router>

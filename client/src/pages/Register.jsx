@@ -177,7 +177,7 @@ const Register = () => {
 	        	                    Submit
 	        	                </Button>
 	        	            }
-					            <p className="text-center mt-3 text-small">
+					            <p className="text-center mt-3 text-sm">
                                     Already have an account? Click <Link to="/login">here</Link> to login.
                 	            </p>
                         </Form>

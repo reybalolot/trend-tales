@@ -6,12 +6,50 @@
     background-color: #37bc9b;
 }
 
-.text-small {
+.card {
+    min-height: 150px;
+    max-height: 250px;
+    border: 1px solid transparent;
+    transition: all 150ms ease-in;
+}
+
+.card-text {
+    max-height: 135px;
+    overflow: hidden;
+    color: #272727;
+}
+
+.card-footer {
+    color: #000 !important;
+    border-bottom: 1px solid #fff;
+    background-color: #fff;
+    transition: all 150ms ease-in;
+}
+
+.text-sm {
     font-size: .8rem;
 }
 
 .text-xs {
     font-size: .6rem;
+}
+
+.text-xxs {
+    font-size: .5rem;
+}
+
+
+.card:hover {
+    cursor:pointer;
+    transform: scale(1.002);
+    border: 1px solid #e3e3e3;
+
+
+    .card-footer {
+        color: #fff !important;
+        border-bottom: 1px solid #e3e3e3;
+        background-color: #3bafda;
+    }
 }
 
 

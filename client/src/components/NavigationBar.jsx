@@ -16,13 +16,13 @@ const NavigationBar = () => {
 
     return (
         <>
-        <Navbar className="">
+        <Navbar className="rounded-bottom">
           <Container>
             <Navbar.Brand href="#home" className='text-white'><span className='fw-bold'>Trend</span>tales</Navbar.Brand>
             <Navbar.Toggle />
             <Navbar.Collapse className="justify-content-end">
                 {user.id === null ? (
-                    <Nav.Link as={Link} to={'/register'} className='text-small text-white'>register</Nav.Link>
+                    <Nav.Link as={Link} to={'/register'} className='text-sm text-white'>register</Nav.Link>
                 ) : (
                     <Navbar.Text className='text-small text-white'>
                       Signed in as: <a href="#login">Mark Otto</a>
