@@ -10,7 +10,7 @@ export const createAccessToken = (user) => {
             username: user.username,
             isAdmin: user.isAdmin
         };
-        return jwt.sign(data, process.env.JWT_SECRET_KEY, { expiresIn: "4h"});
+        return jwt.sign(data, process.env.JWT_SECRET_KEY, { expiresIn: "12h"});
     } catch (error) {
         res.status(500).json({
             error: 'token creation failed',

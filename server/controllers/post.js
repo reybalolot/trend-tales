@@ -19,9 +19,12 @@ const getAllPosts = (req, res) => {
         Post.find({})
         .then(posts => {
             if (posts.length == 0) {
-                return res.status(200).send({ message: 'No products found'});
+                return res.status(200).send({
+                    success: true,
+                    message: 'No post found'
+                });
             } else {
-                return res.status(200).json(posts);
+                return res.status(200).json({posts: posts});
             }
         })
     } catch (error) {
@@ -34,7 +37,7 @@ const getAllPosts = (req, res) => {
 
 const getPost = (req, res) => {
     try {
-        const postId = req.params;
+        const { postId } = req.params;
 
         Post.findById(postId)
         .then(post => {
@@ -153,4 +156,4 @@ const removeComment = () => {
 
 }
 
-export default { getAllPosts, getPost, createPost, updatePost, addComment, removeComment, deletePost }
+export default { getAggregatePosts, getAllPosts, getPost, createPost, updatePost, addComment, removeComment, deletePost }

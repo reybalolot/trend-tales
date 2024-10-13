@@ -13,6 +13,8 @@ router.get('/logout', userController.logoutUser);
 
 router.get('/', verifyUser, userController.getUserDetails);
 
+router.get('/:userId', verifyUser, userController.getUsername);
+
 router.patch('/update-password', verifyUser, userController.updateUserPassword);
 
 //admin

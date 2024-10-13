@@ -76,7 +76,7 @@ const loginUser = (req, res) => {
                 return res.status(401).send({ error: 'Email and password do not match' });
             } else {
                 res.status(200).send({
-                    token: createAccessToken(user)
+                    access: createAccessToken(user)
                 });
             }
         })
@@ -103,6 +103,28 @@ const getUserDetails = (req, res) => {
             }
         })
         .catch(error => errorHandler(error, req, res));
+    } catch (error) {
+        res.status(500).json({
+            message: 'Internal Server Error',
+            error: error.message
+        });
+    }
+}
+
+const getUsername = (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        User.findById(userId, { password: 0, isAdmin: 0 })
+        .then(user => {
+            if (!user) {
+                return res.status(404).send({ error: 'User not found' });
+            } else {
+                return res.status(200).json({ user: user });
+            }
+        })
+        .catch(error => errorHandler(error, req, res));
+
     } catch (error) {
         res.status(500).json({
             message: 'Internal Server Error',
@@ -200,4 +222,4 @@ const setUserAdmin = (req, res) => {
 }
 
 
-export default { registerUser, loginUser, getUserDetails, updateUserPassword, logoutUser, setUserAdmin }
+export default { registerUser, loginUser, getUserDetails, getUsername, updateUserPassword, logoutUser, setUserAdmin }
