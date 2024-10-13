@@ -41,12 +41,12 @@ li {
 }
 
 .comment-card {
-    background-color: #f3f3f3;
+    background-color: #fff;
 }
 
 .comment-footer {
-    background-color: #f3f3f3;
-    border-bottom: #f3f3f3;
+    background-color: #fff;
+    border-bottom: #fff;
 }
 
 .comment-add-btn {

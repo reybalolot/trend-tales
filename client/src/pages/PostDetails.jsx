@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
-import { Container, Row, Card } from "react-bootstrap";
+import { useContext, useEffect, useState } from "react";
+import { Container, Row, Card, Form } from "react-bootstrap";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { Link, useNavigate, useParams} from "react-router-dom";
 import { Toaster, toast } from "sonner";
+import UserContext from '../context/UserContext';
 import Comment from "../components/Comment";
 
 const Post = () => {
 
+    const { user } = useContext(UserContext);
     const [ postDetails, setPostDetails ] = useState(null);
     const [ fetchedAuthor, setFetchedAuthor ] = useState('');
     const [ commentAuthor, setCommentAuthor ] = useState('');
     const [ comments, setComments ] = useState([]);
+    const [ hideInputComment, setHideInputComment ] = useState(true);
     const { id } = useParams();
     const url = import.meta.env.VITE_REACT_API_URL || 'http://localhost:4000';
     const navigate = useNavigate();
@@ -83,7 +86,8 @@ const Post = () => {
     }
 
     const addComment = () => {
-        toast.message('Comment added.');
+        setHideInputComment(false);
+        // toast.message('Comment added.');
     }
 
     useEffect(() => {
@@ -134,23 +138,37 @@ const Post = () => {
                                 </Card.Footer>
                             </Card>
 
+
                             <Card className="flex justify-content-center py-2">
                                 <h6 className="text-secondary">Comments <span className="text-secondar text-sm">{postDetails.comments.length}</span></h6>
 
                                 { postDetails.comments.length > 0 ? (
                                     comments.map(comment => (
                                         <Comment
-                                            key={comment._id}
-                                            content={comment.comment}
-                                            author={commentAuthor}
-                                            date={new Date(comment.createdOn).toLocaleString('en-US', dateOptions)}
-                                            />
+                                        key={comment._id}
+                                        content={comment.comment}
+                                        author={commentAuthor}
+                                        date={new Date(comment.createdOn).toLocaleString('en-US', dateOptions)}
+                                        />
                                     ))
                                 ) : (
                                     null
                                 )}
 
-                                <Link className="comment-add-btn btn mt-3" onClick={() => addComment()}>Add Comment</Link>
+                                <div>
+                                <hr className="mt-2 mb-2 mx-1" />
+                                <Form hidden={hideInputComment}>
+                                    <Card className="comment-card p-1 px-2 my-1 text-sm" style={{backgroundColor: '#f3f3f3'}}>
+                                        <Card.Body className="px-0 py-1 rounded-top">
+                                            <Form.Control size="sm"/>
+                                        </Card.Body>
+                                        <Card.Footer className="comment-footer text-xs card-footer p-1" style={{backgroundColor: '#f3f3f3'}}>
+                                            { user.username }
+                                        </Card.Footer>
+                                    </Card>
+                                </Form>
+                                </div>
+                                <Link className="comment-add-btn btn mt-2" onClick={() => addComment()}>Add Comment</Link>
                             </Card>
                         </>
                     ) : (
