@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 const commentSchema = new mongoose.Schema({
-    blogId: {
+    postId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Blog',
+        ref: 'Post',
         required: true
     },
     userId: {
@@ -14,6 +14,10 @@ const commentSchema = new mongoose.Schema({
     comment: {
         type: String,
         required: true
+    },
+    createdOn: {
+        type: Date,
+        default: Date.now
     }
 });
 

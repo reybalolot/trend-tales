@@ -1,4 +1,5 @@
 import Post from '../models/post.js';
+import Comment from '../models/comment.js'
 import errorHandler from "../utils/errorHandler.js";
 
 //user actions
@@ -119,9 +120,34 @@ const updatePost = (req, res) => {
 
 const addComment = (req, res) => {
     try {
-        const postId = req.params;
+        const userId = req.user.id;
+        const { postId } = req.params;
+        const { comment } = req.body;
 
-        Post.findById(postId)
+        const newComment = new Comment({
+            postId: postId,
+            userId: userId,
+            comment: comment,
+            createdOn: new Date()
+        })
+
+        newComment.save()
+        .then(comment => {
+            Post.findById(postId)
+            .then(post => {
+                if (post) {
+                    post.comments.push(comment);
+                    post.save();
+                    return res.status(200).send({
+                        success: true,
+                        message: 'Comment added successfully',
+                    })
+                } else {
+                    return res.status(404).send({ message: 'Post not found'});
+                }
+            })
+        })
+        .catch(error => errorHandler(error, req, res));
 
     } catch (error) {
         res.status(500).json({
