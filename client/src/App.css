@@ -6,10 +6,9 @@
     background-color: #37bc9b;
 }
 
-.card {
+.card-blog {
     min-height: 150px;
     max-height: 250px;
-    border: 1px solid transparent;
     transition: all 150ms ease-in;
 }
 
@@ -26,6 +25,21 @@
     transition: all 150ms ease-in;
 }
 
+.comment-card {
+    background-color: #f3f3f3;
+}
+
+.comment-footer {
+    background-color: #f3f3f3;
+    border-bottom: #f3f3f3;
+}
+
+.comment-add-btn {
+    color: #a3a3a3;
+    border: none;
+    background-color: transparent;
+}
+
 .text-sm {
     font-size: .8rem;
 }
@@ -39,7 +53,7 @@
 }
 
 
-.card:hover {
+.card-blog:hover {
     cursor:pointer;
     transform: scale(1.002);
     border: 1px solid #e3e3e3;
@@ -52,6 +66,10 @@
     }
 }
 
+.comment-add-btn:hover {
+    background-color: #48cfad;
+    color: #fff;
+}
 
 @media screen and (max-width: 600px) {
     .main-container {

@@ -17,43 +17,35 @@ const Login = () => {
 
     const authenticate = (e) => {
         e.preventDefault();
-        toast.success(<div className="p-3">TEST TOAST</div>)
-        // fetch(`${url}/user/login`, {
-		// 	method: 'POST',
-		// 	headers: {
-		// 		"Content-Type": "application/json"
-		// 	},
-		// 	body: JSON.stringify({
-		// 		email: email,
-		// 		password: password
-		// 	})
-		// })
-		// .then(res => res.json())
-		// .then(data => {
-		// 	if (data.access) {
+        fetch(`${url}/user/login`, {
+			method: 'POST',
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				email: email,
+				password: password
+			})
+		})
+		.then(res => res.json())
+		.then(data => {
+			if (data.access) {
 
-        //         localStorage.setItem('token', data.access);
-        //         setUser(jwtDecode(data.access))
-        //         navigate('/movies')
+                localStorage.setItem('token', data.access);
+                setUser(jwtDecode(data.access))
+                navigate('/posts')
 
-		// 	} else {
-        //         toast.info('This is an info.')
-		// 		// swal.fire({
-		// 		// 	title: "Authentication failed",
-		// 		// 	icon: "error",
-		// 		// 	text: "Check your login details and try again."
-		// 		// });
-		// 	}
-		// })
-		// .catch(() => {
-        //     console.log('error')
-		// 	// swal.fire({
-		// 	// 	title: "Login Failed",
-		// 	// 	icon: "error",
-		// 	// 	text: "Something went wrong. Please try again later."
-		// 	// });
-		// });
+			} else if (data.error === 'Email and password do not match') {
+                toast.error('Email and password do not match.')
+			} else {
+                toast.error('Something went wrong. Please try again.')
+            }
+		})
+		.catch(() => {
+            toast.error('Something went wrong. Please try again.')
+		});
     }
+
     useEffect(() => {
         if (email !== '' && password !== '') {
             setIsActive(true);

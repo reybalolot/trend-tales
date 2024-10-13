@@ -4,10 +4,11 @@ import { Container } from "react-bootstrap";
 import { jwtDecode } from 'jwt-decode';
 import UserContext from './context/UserContext.js';
 import NavigationBar from './components/NavigationBar.jsx';
+import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import Registration from './pages/Register.jsx';
-import Blogs from './pages/Blogs.jsx';
-import Post from './pages/Post.jsx';
+import Posts from './pages/Posts.jsx';
+import PostDetails from './pages/PostDetails.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 
@@ -50,13 +51,13 @@ function App() {
               <div className='main-container'>
                 <NavigationBar/>
                 <Routes>
-                  <Route path="/" element={<Blogs/>}/>
+                  <Route path="/" element={<Home/>}/>
                   <Route path="/login" element={<Login/>}/>
                   <Route path="/register" element={<Registration/>}/>
-                  <Route path="/blogs" element={<Blogs/>}/>
-                  <Route path="/post" element={<Post/>}/>
+                  <Route path="/posts" element={<Posts/>}/>
+                  <Route path="/post/:id" element={<PostDetails/>}/>
                 </Routes>
-                  </div>
+              </div>
           </Router>
       </UserContext.Provider>
     </>
