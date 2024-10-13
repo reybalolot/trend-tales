@@ -51,7 +51,7 @@ const Posts = () => {
             <Container className="" id="home">
                 <Row className="px-4 pt-4 pb-2">
                     <div className="d-flex align-items-center justify-content-between">
-                        <div className="fw-bold">All Posts</div>
+                        <div className="fw-bold">All Blog Posts</div>
                         <button className="btn btn-add flex text-sm p-1" onClick={() => createPost()}><MdAdd/> Add</button>
                     </div>
                 </Row>

@@ -1,6 +1,10 @@
 .main-container {
     padding: 0 25%;
 }
+/* this is for the sonner exclusive li padding */
+li {
+    padding: 10px;
+}
 
 .navbar {
     background-color: #37bc9b;
@@ -30,6 +34,11 @@
     border: 1px solid #48cfad;
 }
 
+.text-area {
+    display: block;
+    overflow: hidden;
+    resize: none;
+}
 
 .comment-card {
     background-color: #f3f3f3;

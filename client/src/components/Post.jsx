@@ -56,7 +56,7 @@ const Post = ({postContent}) => {
                 </Card.Text>
             </Card.Body>
             <Card.Footer className="text-xs card-footer">
-                By: { fetchedAuthor } | { new Date(updatedOn).toLocaleString('en-US', dateOptions) }
+                { fetchedAuthor } | { new Date(updatedOn).toLocaleString('en-US', dateOptions) }
             </Card.Footer>
         </Card>
         </>
