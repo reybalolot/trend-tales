@@ -157,6 +157,33 @@ const addComment = (req, res) => {
     }
 }
 
+const getComments = (req, res) => {
+    try {
+        const { commentId } = req.params;
+
+        Comment.find(commentId)
+        .then(comments => {
+            if (comments) {
+                return res.status(200).json({
+                    success: true,
+                    comments: comments
+                })
+            } else {
+                return res.status(200).send({
+                    message: 'No comments found'
+                })
+            }
+        })
+        .catch(error => errorHandler(error, req, res));
+
+    } catch (error) {
+        res.status(500).json({
+            message: 'Internal server error',
+            error: error.message
+        });
+    }
+}
+
 //admin actions
 const deletePost = (req, res) => {
     try {
@@ -182,4 +209,4 @@ const removeComment = () => {
 
 }
 
-export default { getAggregatePosts, getAllPosts, getPost, createPost, updatePost, addComment, removeComment, deletePost }
+export default { getAggregatePosts, getAllPosts, getPost, createPost, updatePost, addComment, removeComment, getComments, deletePost }

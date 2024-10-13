@@ -16,6 +16,8 @@ router.post('/add', verifyUser, postController.createPost);
 router.patch('/update/:postId', verifyUser, postController.updatePost);
 
 //comments
+router.get('/:postId/comments/', verifyUser, postController.getComments);
+
 router.post('/:postId/comments/add', verifyUser, postController.addComment);
 
 router.delete('/comments/remove', verifyUser, verifyAdmin, postController.removeComment);
