@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Card, Button } from "react-bootstrap";
+import { MdArrowBackIosNew } from "react-icons/md";
 import { Link, useNavigate, useParams} from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import Comment from "../components/Comment";
@@ -113,8 +114,12 @@ const Post = () => {
                 <div>
                     <Toaster richColors position="top-center" style={{paddingLeft: '0px'}}/>
                 </div>
-                <Row className="justify-content-center py-5 px-4">
-                    <Button onClick={() => navigate(-1)}>Back</Button>
+                 <Row className="px-4 pt-4 pb-2">
+                    <div className="d-flex align-items-center ps-0">
+                        <button className="btn btn-add flex text-sm p-1 me-3" onClick={() => navigate(-1)}><MdArrowBackIosNew className="pe-1"/>Back</button>
+                    </div>
+                </Row>
+                <Row className="justify-content-center py-1 px-4">
                     { postDetails ? (
                         <>
                             <Card className="shadow-sm rounded p-0 my-2">

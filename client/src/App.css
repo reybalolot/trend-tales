@@ -25,6 +25,12 @@
     transition: all 150ms ease-in;
 }
 
+.btn-add {
+    color: #48cfad;
+    border: 1px solid #48cfad;
+}
+
+
 .comment-card {
     background-color: #f3f3f3;
 }
@@ -36,7 +42,7 @@
 
 .comment-add-btn {
     color: #a3a3a3;
-    border: none;
+    border: 1px solid #a3a3a3;
     background-color: transparent;
 }
 
@@ -52,6 +58,10 @@
     font-size: .5rem;
 }
 
+.btn-add:hover {
+    color: #f3f3f3;
+    background-color: #48cfad;
+}
 
 .card-blog:hover {
     cursor:pointer;

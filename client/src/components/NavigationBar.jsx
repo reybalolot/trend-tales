@@ -24,9 +24,14 @@ const NavigationBar = () => {
                 {user.id === null ? (
                     <Nav.Link as={Link} to={'/register'} className='text-sm text-white'>register</Nav.Link>
                 ) : (
+                  <>
                     <Navbar.Text className='text-sm text-white'>
-                      Signed in as: <a href="#login" className='text-white text-decoration-none'>{ user.username }</a>
+                      {/* <div className='text-xxs d-flex'>Signed in as:</div> */}
+                      <a href="#login" className='d-flex text-white text-decoration-none'>{ user.username }</a>
                     </Navbar.Text>
+                    <div className='text-white mx-2'> | </div>
+                    <Nav.Link onClick={handleLogout} className='text-sm text-white'>log out</Nav.Link>
+                  </>
                 )}
             </Navbar.Collapse>
           </Container>

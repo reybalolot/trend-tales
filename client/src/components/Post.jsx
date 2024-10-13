@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
-import { Toaster, toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
 const Post = ({postContent}) => {
@@ -48,10 +47,7 @@ const Post = ({postContent}) => {
 
     return (
         <>
-        <div>
-            <Toaster richColors position="top-center" style={{paddingLeft: '0px'}}/>
-        </div>
-        <Card className="card-blog shadow-sm rounded p-0 my-2" onClick={() => viewPost(_id)}>
+        <Card className="card-blog shadow-sm rounded p-0 my-1" onClick={() => viewPost(_id)}>
             <Card.Body className="rounded-top">
                 <Card.Title>{ title }</Card.Title>
                 <Card.Subtitle className="text-xxs text-secondary mb-1"></Card.Subtitle>
