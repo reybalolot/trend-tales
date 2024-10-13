@@ -1,15 +1,27 @@
-import Blog from '../models/blog.js';
+import Post from '../models/post.js';
 import errorHandler from "../utils/errorHandler.js";
 
 //user actions
-const getAllBlogs = (req, res) => {
+const getAggregatePosts = (req, res) => {
     try {
-        Blog.find({})
-        .then(blogs => {
-            if (blogs.length == 0) {
+        //aggregate $limit
+        //aggregate $sortByCount
+    } catch (error) {
+        res.status(500).json({
+            message: 'Internal server error',
+            error: error.message
+        });
+    }
+}
+
+const getAllPosts = (req, res) => {
+    try {
+        Post.find({})
+        .then(posts => {
+            if (posts.length == 0) {
                 return res.status(200).send({ message: 'No products found'});
             } else {
-                return res.status(200).json(products);
+                return res.status(200).json(posts);
             }
         })
     } catch (error) {
@@ -20,15 +32,15 @@ const getAllBlogs = (req, res) => {
     }
 }
 
-const getBlog = (req, res) => {
+const getPost = (req, res) => {
     try {
-        const blogId = req.params;
+        const postId = req.params;
 
-        Blog.findById(blogId)
-        .then(blog => {
+        Post.findById(postId)
+        .then(post => {
             return res.status(200).json({
-                message: 'Blog retrieved successfully',
-                blog: blog
+                message: 'Post retrieved successfully',
+                post: post
             })
         })
         .catch(error => errorHandler(error, req, res));
@@ -41,7 +53,7 @@ const getBlog = (req, res) => {
     }
 }
 
-const postBlog = (req, res) => {
+const createPost = (req, res) => {
     try {
         const userId = req.user.id;
         const {title, content} = req.body;
@@ -50,18 +62,18 @@ const postBlog = (req, res) => {
             return res.status(400).send({error: "Fill required fields"});
         }
 
-        const newBlog = new Blog({
+        const newPost = new Post({
             title: title,
             content: content,
             author: userId,
             date: new Date()
         })
 
-        newBlog.save()
-        .then(blog => {
+        newPost.save()
+        .then(post => {
             return res.status(200).json({
-                message: 'Added successfully',
-                blog: blog
+                message: 'Post created successfully',
+                post: post
             })
         })
         .catch(error => errorHandler(error, req, res));
@@ -74,22 +86,22 @@ const postBlog = (req, res) => {
     }
 }
 
-const updateBlog = (req, res) => {
+const updatePost = (req, res) => {
     try {
         const author = req.user.id;
-        const { blogId } = req.params;
+        const { postId } = req.params;
         const { title, content } = req.body;
         const updatedOn = new Date();
 
-        Blog.findByIdAndUpdate(
-            blogId,
+        Post.findByIdAndUpdate(
+            postId,
             {title, content, author, updatedOn},
             {new: true}
         )
-        .then(blog => {
+        .then(post => {
             return res.status(200).json({
-                message: 'Updated successfully',
-                blog: blog
+                message: 'Post updated successfully',
+                post: post
             })
         })
         .catch(error => errorHandler(error, req, res));
@@ -104,9 +116,9 @@ const updateBlog = (req, res) => {
 
 const addComment = (req, res) => {
     try {
-        const blogId = req.params;
+        const postId = req.params;
 
-        Blog.findById(blogId)
+        Post.findById(postId)
 
     } catch (error) {
         res.status(500).json({
@@ -117,14 +129,14 @@ const addComment = (req, res) => {
 }
 
 //admin actions
-const deleteBlog = (req, res) => {
+const deletePost = (req, res) => {
     try {
-        const blogId = req.params;
+        const postId = req.params;
 
-        Blog.findByIdAndDelete(blogId)
-        .then(blog => {
+        Post.findByIdAndDelete(postId)
+        .then(() => {
             return res.status(200).json({
-                message: 'Updated successfully',
+                message: 'Post deleted successfully',
             })
         })
         .catch(error => errorHandler(error, req, res));
@@ -141,6 +153,4 @@ const removeComment = () => {
 
 }
 
-//remove comment
-
-export default { getAllBlogs, getBlog, postBlog, updateBlog, addComment, removeComment, deleteBlog }
+export default { getAllPosts, getPost, createPost, updatePost, addComment, removeComment, deletePost }

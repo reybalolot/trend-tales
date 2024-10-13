@@ -24,7 +24,10 @@ const registerUser = (req, res) => {
         User.find({ email: email })
         .then(user => {
             if (user.length !== 0) {
-                return res.status(400).send({ message: 'Email already exists' });
+                return res.status(400).send({
+                    success: false,
+                    message: 'Email already exists'
+                });
             }
             const newUser = new User({
                 firstName: firstName,
@@ -37,7 +40,10 @@ const registerUser = (req, res) => {
             //save user otherwise
             return newUser.save()
             .then(() => {
-                res.status(201).send({ message: 'Registered successfully' });
+                res.status(201).send({
+                    success: true,
+                    message: 'Registered successfully'
+                });
             })
             .catch(error => errorHandler(error, req, res));
         })

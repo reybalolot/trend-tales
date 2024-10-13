@@ -8,6 +8,7 @@ import "./utils/passport.js";
 
 //routes
 import userRoutes from './routes/user.js';
+import postRoutes from './routes/post.js';
 
 //configs
 dotenv.config();
@@ -41,6 +42,7 @@ mongoose.connection.once('open', () => console.log('Connected to MongoDB'));
 
 //routes
 app.use('/user', userRoutes);
+app.use('/posts', postRoutes);
 app.get('/', (req, res) => {
     res.send("TrendTales API")
 });
