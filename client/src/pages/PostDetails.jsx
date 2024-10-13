@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Container, Row, Card, Button } from "react-bootstrap";
 import { Link, useNavigate, useParams} from "react-router-dom";
 import { Toaster, toast } from "sonner";
+import Comment from "../components/Comment";
 
 const Post = () => {
 
@@ -17,25 +18,7 @@ const Post = () => {
         year: 'numeric',
     };
 
-    const fetchPost = async () => {
-
-        // try {
-        //     const response = await fetch(`${url}/posts/${id}`, {
-        //         headers: {
-		// 		    "Content-Type": "application/json",
-        //             Authorization: `Bearer ${localStorage.getItem('token')}`
-        //         }
-        //     })
-        //     const data = await response.json();
-        //     setPostDetails(data.post);
-        //     const author = await Promise.all(data.post.author)
-        //     setFetchedAuthor(author);
-
-        // } catch (error) {
-        //     toast.error('Something went wrong. Please try again.');
-        //     console.log(error)
-        // }
-
+    const fetchPost = () => {
         fetch(`${url}/posts/${id}`, {
              headers: {
 				"Content-Type": "application/json",
@@ -110,16 +93,15 @@ const Post = () => {
                             </Card>
 
                             <Card className="flex justify-content-center py-2">
-                                <h6 className="text-secondary">Comments <span className="text-secondar text-sm">10</span></h6>
+                                <h6 className="text-secondary">Comments <span className="text-secondar text-sm">{postDetails.comments.length}</span></h6>
 
-                                <Card className="comment-card    p-1 px-2 my-1 text-sm">
-                                    <Card.Body className="px-0 py-1 rounded-top">
-                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                                    </Card.Body>
-                                    <Card.Footer className="comment-footer text-xs card-footer p-1">
-                                        isReyy | June 2
-                                    </Card.Footer>
-                                </Card>
+                                { postDetails.comments.length > 0 ? (
+                                    postDetails.comments.map(comment => (
+                                        <Comment commentContent={comment} key={comment._id}/>
+                                    ))
+                                ) : (
+                                    null
+                                )}
 
                                 <Link className="comment-add-btn btn" onClick={() => addComment()}>Add Comment</Link>
                             </Card>
