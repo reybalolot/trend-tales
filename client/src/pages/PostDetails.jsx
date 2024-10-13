@@ -8,6 +8,8 @@ const Post = () => {
 
     const [ postDetails, setPostDetails ] = useState(null);
     const [ fetchedAuthor, setFetchedAuthor ] = useState('');
+    const [ commentAuthor, setCommentAuthor ] = useState('');
+    const [ comments, setComments ] = useState([]);
     const { id } = useParams();
     const url = import.meta.env.VITE_REACT_API_URL || 'http://localhost:4000';
     const navigate = useNavigate();
@@ -18,6 +20,7 @@ const Post = () => {
         year: 'numeric',
     };
 
+    //
     const fetchPost = () => {
         fetch(`${url}/posts/${id}`, {
              headers: {
@@ -36,8 +39,9 @@ const Post = () => {
 		});
     }
 
-    const fetchAuthorUser = (author) => {
-        fetch(`${url}/user/${author}`, {
+    //
+    const fetchComments = () => {
+        fetch(`${url}/posts/${id}/comments/`, {
              headers: {
 				"Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -45,14 +49,35 @@ const Post = () => {
         })
         .then(res => res.json())
         .then(data => {
-            if (data) {
-                setFetchedAuthor(data.user.username);
+            if (data.success === true) {
+                setComments(data.comments);
             } else if (data.error) {
-                setFetchedAuthor(author);
+                setComments([]);
             }
         })
 		.catch(() => {
-            setFetchedAuthor(author);
+            toast.error('There was an error fetching comments');
+        });
+    }
+
+    //
+    const fetchAuthorUser = (author) => {
+        return fetch(`${url}/user/${author}`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data) {
+                return data.user.username;
+            } else if (data.error) {
+                return author;
+            }
+        })
+		.catch(() => {
+            return author;
 		});
     }
 
@@ -61,12 +86,24 @@ const Post = () => {
     }
 
     useEffect(() => {
-        fetchPost()
+        fetchPost();
+        fetchComments();
     }, [])
 
     useEffect(() => {
         if (postDetails) {
-            fetchAuthorUser(postDetails.author);
+
+            fetchAuthorUser(postDetails.author)
+            .then(postUser => {
+                setFetchedAuthor(postUser);
+            })
+
+            comments.map(comment => {
+                fetchAuthorUser(comment.userId)
+                .then(commentUser => {
+                    setCommentAuthor(commentUser)
+                })
+            })
         }
     }, [postDetails])
 
@@ -96,14 +133,19 @@ const Post = () => {
                                 <h6 className="text-secondary">Comments <span className="text-secondar text-sm">{postDetails.comments.length}</span></h6>
 
                                 { postDetails.comments.length > 0 ? (
-                                    postDetails.comments.map(comment => (
-                                        <Comment commentContent={comment} key={comment._id}/>
+                                    comments.map(comment => (
+                                        <Comment
+                                            key={comment._id}
+                                            content={comment.comment}
+                                            author={commentAuthor}
+                                            date={new Date(comment.createdOn).toLocaleString('en-US', dateOptions)}
+                                            />
                                     ))
                                 ) : (
                                     null
                                 )}
 
-                                <Link className="comment-add-btn btn" onClick={() => addComment()}>Add Comment</Link>
+                                <Link className="comment-add-btn btn mt-3" onClick={() => addComment()}>Add Comment</Link>
                             </Card>
                         </>
                     ) : (
