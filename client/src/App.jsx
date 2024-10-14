@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route  } from "react-router-dom";
+import { Container } from 'react-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import UserContext from './context/UserContext.js';
 import NavigationBar from './components/NavigationBar.jsx';
@@ -48,8 +49,10 @@ function App() {
     <>
       <UserContext.Provider value={{user, setUser, unsetUser}}>
         <Router>
-              <div className='main-container'>
+              <div className='pb-5' >
                 <NavigationBar/>
+              </div>
+              <div className='main-container'>
                 <Routes>
                   <Route path="/" element={<Home/>}/>
                   <Route path="/login" element={<Login/>}/>

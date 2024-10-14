@@ -17,9 +17,9 @@ const NavigationBar = () => {
 
     return (
         <>
-        <Navbar className="rounded-bottom">
+        <Navbar className="rounded-bottom fixed-top">
           <Container>
-            <Navbar.Brand href="#home" className='text-white'><span className='fw-bold'>Trend</span>tales</Navbar.Brand>
+            <Navbar.Brand as={Link} to={'/'} className='text-white'><span className='fw-bold'>Trend</span>tales</Navbar.Brand>
             <Navbar.Toggle />
             <Navbar.Collapse className="justify-content-end">
                 {user.id === null ? (
