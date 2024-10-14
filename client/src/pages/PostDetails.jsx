@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Container, Row, Card, Form, Button } from "react-bootstrap";
-import { MdArrowBackIosNew } from "react-icons/md";
+import { MdArrowBackIosNew, MdDeleteOutline } from "react-icons/md";
 import { Link, useNavigate, useParams} from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import UserContext from '../context/UserContext';
@@ -111,6 +111,7 @@ const Post = () => {
                 fetchComments();
                 setCommentContent('');
                 setShowInputComment(false);
+                setBtnClassName('btn-outline-secondary btn mt-2 disabled');
             } else if (data.error) {
                 localStorage.clear();
                 navigate('/login');
@@ -121,6 +122,32 @@ const Post = () => {
 		});
     }
 
+    //
+    const deletePost = () => {
+         fetch(`${url}/posts/delete/${id}`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                toast.warning('Deleting post.');
+                setTimeout(() => {
+                    navigate('/posts');
+                }, 1000);
+            } else if (data.error) {
+                toast.error('Something went wrong.')
+            }
+        })
+		.catch(() => {
+            toast.error('Something went wrong.')
+		});
+    }
+
+    //
     useEffect(() => {
         fetchPost();
         fetchComments();
@@ -159,9 +186,19 @@ const Post = () => {
                                         { postDetails.content }
                                     </Card.Text>
                                 </Card.Body>
-                                <Card.Footer className="text-xs card-footer">
+                                {/* <Card.Footer className="text-xs card-footer">
                                     { fetchedAuthor } | { new Date(postDetails.updatedOn).toLocaleString('en-US', dateOptions) }
-                                </Card.Footer>
+                                </Card.Footer> */}
+                                { user.isAdmin ? (
+                                    <Card.Footer className="comment-footer text-xs card-footer p-1 d-flex justify-content-between">
+                                        <div className="d-flex align-items-center ms-1" >{ fetchedAuthor } | { new Date(postDetails.updatedOn).toLocaleString('en-US', dateOptions) }</div>
+                                        <div><Button className="text-sm py-0 px-1" variant="outline-danger" onClick={deletePost}><MdDeleteOutline/></Button></div>
+                                    </Card.Footer>
+                                ) : (
+                                    <Card.Footer className="comment-footer text-xs card-footer p-1 d-flex justify-content-between">
+                                        { fetchedAuthor } | {  new Date(postDetails.updatedOn).toLocaleString('en-US', dateOptions) }
+                                    </Card.Footer>
+                                )}
                             </Card>
 
 
@@ -172,6 +209,8 @@ const Post = () => {
                                     comments.map(comment => (
                                         <Comment
                                         key={comment._id}
+                                        id={comment._id}
+                                        postId={id}
                                         content={comment.comment}
                                         author={comment.userId}
                                         date={new Date(comment.createdOn).toLocaleString('en-US', dateOptions)}
