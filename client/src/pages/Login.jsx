@@ -17,7 +17,7 @@ const Login = () => {
 
     const authenticate = (e) => {
         e.preventDefault();
-        fetch(`${url}/user/login`, {
+        fetch(`${url}/users/login`, {
 			method: 'POST',
 			headers: {
 				"Content-Type": "application/json"

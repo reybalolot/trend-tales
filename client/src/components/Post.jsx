@@ -22,7 +22,7 @@ const Post = ({postContent}) => {
     }
 
     const fetchAuthorUser = (author) => {
-        fetch(`${url}/user/${author}`, {
+        fetch(`${url}/users/${author}`, {
              headers: {
 				"Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem('token')}`

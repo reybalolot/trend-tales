@@ -10,7 +10,7 @@ const Comment = ({content, author, date}) => {
     const url = import.meta.env.VITE_REACT_API_URL || 'http://localhost:4000';
     //
     const fetchCommentAuthor = () => {
-        fetch(`${url}/user/${author}`, {
+        fetch(`${url}/users/${author}`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem('token')}`
