@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route  } from "react-router-dom";
-import { Container } from 'react-bootstrap';
 import { jwtDecode } from 'jwt-decode';
 import UserContext from './context/UserContext.js';
 import NavigationBar from './components/NavigationBar.jsx';
