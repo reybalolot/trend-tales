@@ -41,7 +41,7 @@ mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection 
 mongoose.connection.once('open', () => console.log('Connected to MongoDB'));
 
 //routes
-app.use('/user', userRoutes);
+app.use('/users', userRoutes);
 app.use('/posts', postRoutes);
 app.get('/', (req, res) => {
     res.send("TrendTales API")

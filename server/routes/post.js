@@ -20,9 +20,9 @@ router.get('/:postId/comments/', verifyUser, postController.getComments);
 
 router.post('/:postId/comments/add', verifyUser, postController.addComment);
 
-router.delete('/comments/remove', verifyUser, verifyAdmin, postController.removeComment);
+router.delete('/comments/remove/:commentId', verifyUser, verifyAdmin, postController.removeComment);
 
 //admin
-router.delete('/delete', verifyUser, verifyAdmin, postController.deletePost);
+router.delete('/delete/:postId', verifyUser, verifyAdmin, postController.deletePost);
 
 export default router;

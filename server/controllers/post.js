@@ -159,9 +159,9 @@ const addComment = (req, res) => {
 
 const getComments = (req, res) => {
     try {
-        const { commentId } = req.params;
+        const { postId } = req.params;
 
-        Comment.find(commentId)
+        Comment.find({ postId: postId })
         .then(comments => {
             if (comments) {
                 return res.status(200).json({
@@ -187,11 +187,12 @@ const getComments = (req, res) => {
 //admin actions
 const deletePost = (req, res) => {
     try {
-        const postId = req.params;
+        const { postId } = req.params;
 
         Post.findByIdAndDelete(postId)
         .then(() => {
             return res.status(200).json({
+                success: true,
                 message: 'Post deleted successfully',
             })
         })
@@ -205,8 +206,26 @@ const deletePost = (req, res) => {
     }
 }
 
-const removeComment = () => {
+const removeComment = (req, res) => {
+    try {
 
+        const { commentId } = req.params;
+
+        Comment.findByIdAndDelete(commentId)
+        .then(() => {
+            return res.status(200).json({
+                success: true,
+                message: 'Comment deleted successfully',
+            })
+        })
+        .catch(error => errorHandler(error, req, res));
+    } catch (error) {
+        res.status(500).json({
+            message: 'Internal server error',
+            error: error.message
+        });
+
+    }
 }
 
 export default { getAggregatePosts, getAllPosts, getPost, createPost, updatePost, addComment, removeComment, getComments, deletePost }
