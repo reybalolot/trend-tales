@@ -12,7 +12,6 @@ const Post = () => {
     const { id } = useParams();
     const [ postDetails, setPostDetails ] = useState(null);
     const [ fetchedAuthor, setFetchedAuthor ] = useState('');
-    const [ commentAuthor, setCommentAuthor ] = useState('');
     const [ comments, setComments ] = useState([]);
     const [ showInputComment, setShowInputComment ] = useState(false);
     const [ commentContent, setCommentContent ] = useState('');
@@ -46,29 +45,35 @@ const Post = () => {
     }
 
     //
-    const fetchComments = () => {
-        fetch(`${url}/posts/${id}/comments/`, {
-             headers: {
-				"Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem('token')}`
+    const fetchComments = async () => {
+        try {
+          const response = await fetch(`${url}/posts/${id}/comments/`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem('token')}`
             }
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success === true) {
-                setComments(data.comments);
-            } else if (data.error) {
-                setComments([]);
-            }
-        })
-		.catch(() => {
-            toast.error('There was an error fetching comments');
-        });
-    }
+          });
+
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+
+          const data = await response.json();
+
+          if (data.success) {
+            setComments(data.comments);
+          } else {
+            setComments([]);
+          }
+        } catch (error) {
+          toast.error('There was an error fetching comments');
+          console.error('Fetch error:', error);
+        }
+    };
 
     //
-    const fetchAuthorUser = (author) => {
-        return fetch(`${url}/user/${author}`, {
+    const fetchPostAuthor = (author) => {
+        fetch(`${url}/user/${author}`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -77,16 +82,17 @@ const Post = () => {
         .then(res => res.json())
         .then(data => {
             if (data) {
-                return data.user.username;
+                setFetchedAuthor(data.user.username);
             } else if (data.error) {
-                return author;
+                setFetchedAuthor(author);
             }
         })
 		.catch(() => {
-            return author;
+            setFetchedAuthor(author);
 		});
     }
 
+    //
     const addComment = () => {
         fetch(`${url}/posts/${id}/comments/add`, {
             method: 'POST',
@@ -110,8 +116,7 @@ const Post = () => {
                 navigate('/login');
             }
         })
-		.catch((error) => {
-            console.log(error)
+		.catch(() => {
             toast.error('Something went wrong.');
 		});
     }
@@ -129,18 +134,7 @@ const Post = () => {
 
     useEffect(() => {
         if (postDetails) {
-
-            fetchAuthorUser(postDetails.author)
-            .then(postUser => {
-                setFetchedAuthor(postUser);
-            })
-
-            comments.map(comment => {
-                fetchAuthorUser(comment.userId)
-                .then(commentUser => {
-                    setCommentAuthor(commentUser)
-                })
-            })
+            fetchPostAuthor(postDetails.author)
         }
     }, [postDetails])
 
@@ -179,7 +173,7 @@ const Post = () => {
                                         <Comment
                                         key={comment._id}
                                         content={comment.comment}
-                                        author={commentAuthor}
+                                        author={comment.userId}
                                         date={new Date(comment.createdOn).toLocaleString('en-US', dateOptions)}
                                         />
                                     ))

@@ -1,12 +1,13 @@
 import { useContext } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import UserContext from '../context/UserContext';
 
 const NavigationBar = () => {
 
     const {user, unsetUser} = useContext(UserContext);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleLogout = () => {
         unsetUser();
@@ -22,7 +23,11 @@ const NavigationBar = () => {
             <Navbar.Toggle />
             <Navbar.Collapse className="justify-content-end">
                 {user.id === null ? (
+                  location.pathname == '/login' ? (
                     <Nav.Link as={Link} to={'/register'} className='text-sm text-white'>register</Nav.Link>
+                  ) : (
+                    <Nav.Link as={Link} to={'/login'} className='text-sm text-white'>log in</Nav.Link>
+                  )
                 ) : (
                   <>
                     <Navbar.Text className='text-sm text-white'>

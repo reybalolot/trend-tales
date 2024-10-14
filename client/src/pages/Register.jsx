@@ -18,7 +18,7 @@ const Register = () => {
     const url = import.meta.env.VITE_REACT_API_URL || 'http://localhost:4000';
 
     const register = (e) => {
-        e.preventDefauilt();
+        e.preventDefault();
 
         fetch(`${url}/user/register`, {
             method: 'POST',
