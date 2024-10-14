@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Container, Row, Card, Form } from "react-bootstrap";
+import { Container, Row, Card, Form, Button } from "react-bootstrap";
 import { MdArrowBackIosNew } from "react-icons/md";
 import { Link, useNavigate, useParams} from "react-router-dom";
 import { Toaster, toast } from "sonner";
@@ -9,12 +9,14 @@ import Comment from "../components/Comment";
 const Post = () => {
 
     const { user } = useContext(UserContext);
+    const { id } = useParams();
     const [ postDetails, setPostDetails ] = useState(null);
     const [ fetchedAuthor, setFetchedAuthor ] = useState('');
     const [ commentAuthor, setCommentAuthor ] = useState('');
     const [ comments, setComments ] = useState([]);
-    const [ hideInputComment, setHideInputComment ] = useState(true);
-    const { id } = useParams();
+    const [ showInputComment, setShowInputComment ] = useState(false);
+    const [ commentContent, setCommentContent ] = useState('');
+    const [ btnClassName, setBtnClassName ] = useState('btn-outline-secondary btn mt-2 disabled');
     const url = import.meta.env.VITE_REACT_API_URL || 'http://localhost:4000';
     const navigate = useNavigate();
     const dateOptions = {
@@ -86,14 +88,44 @@ const Post = () => {
     }
 
     const addComment = () => {
-        setHideInputComment(false);
-        // toast.message('Comment added.');
+        fetch(`${url}/posts/${id}/comments/add`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({
+                comment: commentContent
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                toast('Comment added.');
+                fetchComments();
+                setCommentContent('');
+                setShowInputComment(false);
+            } else if (data.error) {
+                localStorage.clear();
+                navigate('/login');
+            }
+        })
+		.catch((error) => {
+            console.log(error)
+            toast.error('Something went wrong.');
+		});
     }
 
     useEffect(() => {
         fetchPost();
         fetchComments();
     }, [])
+
+    useEffect(() => {
+        if (commentContent !== '') {
+            setBtnClassName('btn-outline-primary btn mt-2');
+        }
+    }, [commentContent])
 
     useEffect(() => {
         if (postDetails) {
@@ -120,7 +152,7 @@ const Post = () => {
                 </div>
                  <Row className="px-4 pt-4 pb-2">
                     <div className="d-flex align-items-center ps-0">
-                        <button className="btn btn-add flex text-sm p-1 me-3" onClick={() => navigate(-1)}><MdArrowBackIosNew className="pe-1"/>Back</button>
+                        <button className="btn btn-add flex text-sm p-1 me-3" onClick={() => navigate('/posts')}><MdArrowBackIosNew className="pe-1"/>Back</button>
                     </div>
                 </Row>
                 <Row className="justify-content-center py-1 px-4">
@@ -157,10 +189,10 @@ const Post = () => {
 
                                 <div>
                                 <hr className="mt-2 mb-2 mx-1" />
-                                <Form hidden={hideInputComment}>
+                                <Form onSubmit={addComment} hidden={!showInputComment}>
                                     <Card className="comment-card p-1 px-2 my-1 text-sm" style={{backgroundColor: '#f3f3f3'}}>
                                         <Card.Body className="px-0 py-1 rounded-top">
-                                            <Form.Control size="sm"/>
+                                            <Form.Control size="sm" value={commentContent} onChange={(e) => setCommentContent(e.target.value)}/>
                                         </Card.Body>
                                         <Card.Footer className="comment-footer text-xs card-footer p-1" style={{backgroundColor: '#f3f3f3'}}>
                                             { user.username }
@@ -168,7 +200,13 @@ const Post = () => {
                                     </Card>
                                 </Form>
                                 </div>
-                                <Link className="comment-add-btn btn mt-2" onClick={() => addComment()}>Add Comment</Link>
+
+                                { showInputComment ? (
+                                    <Link className={btnClassName} type="submit" onClick={addComment}>Post Comment</Link>
+                                ) : (
+                                    <Link className="comment-add-btn btn mt-2" onClick={() => setShowInputComment(true)}>Comment</Link>
+                                )}
+
                             </Card>
                         </>
                     ) : (
