@@ -5,8 +5,17 @@ import errorHandler from "../utils/errorHandler.js";
 //user actions
 const getAggregatePosts = (req, res) => {
     try {
-        //aggregate $limit
-        //aggregate $sortByCount
+        Post.aggregate([{$limit:2}])
+        .then(posts => {
+            if (posts.length == 0) {
+                return res.status(200).send({
+                    success: true,
+                    message: 'No post found'
+                });
+            } else {
+                return res.status(200).json({posts: posts});
+            }
+        })
     } catch (error) {
         res.status(500).json({
             message: 'Internal server error',
