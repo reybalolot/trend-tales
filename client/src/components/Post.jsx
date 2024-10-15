@@ -7,7 +7,7 @@ const Post = ({postContent}) => {
     const { _id, title, content, author, updatedOn } = postContent;
     const [ fetchedAuthor, setFetchedAuthor ] = useState('');
 
-    const url = import.meta.env.VITE_REACT_API_URL || 'http://localhost:4000';
+    const url = import.meta.env.VITE_REACT_API_URL;
     const navigate = useNavigate();
     const dateOptions = {
         weekday: 'short',

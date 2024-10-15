@@ -10,7 +10,7 @@ const Comment = ({id, postId, content, author, date}) => {
     const { user } = useContext(UserContext);
     const [ commentAuthor, setCommentAuthor ] = useState('');
     const navigate = useNavigate();
-    const url = import.meta.env.VITE_REACT_API_URL || 'http://localhost:4000';
+    const url = import.meta.env.VITE_REACT_API_URL;
     //
     const fetchCommentAuthor = () => {
         fetch(`${url}/users/${author}`, {

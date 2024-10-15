@@ -6,7 +6,7 @@ import { Toaster, toast } from "sonner";
 const HomePage = () => {
     const navigate = useNavigate();
     const [ posts, setPosts ] = useState([]);
-    const url = import.meta.env.VITE_REACT_API_URL || 'http://localhost:4000';
+    const url = import.meta.env.VITE_REACT_API_URL;
 
     const fetchFeatured = () => {
         fetch(`${url}/posts/featured`)

@@ -11,7 +11,7 @@ const CreatePost = () => {
     const [ isContent, setIsContent ] = useState(false);
     const textAreaRef = useRef(null);
     const navigate = useNavigate();
-    const url = import.meta.env.VITE_REACT_API_URL || 'http://localhost:4000';
+    const url = import.meta.env.VITE_REACT_API_URL;
 
     const back = () => {
         setTitle('');

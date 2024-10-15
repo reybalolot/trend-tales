@@ -15,7 +15,7 @@ const Register = () => {
     const [ isPassword, setIsPasword] = useState(false);
 
     const navigate = useNavigate();
-    const url = import.meta.env.VITE_REACT_API_URL || 'http://localhost:4000';
+    const url = import.meta.env.VITE_REACT_API_URL;
 
     const register = (e) => {
         e.preventDefault();

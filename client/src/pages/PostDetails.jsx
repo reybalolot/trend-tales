@@ -16,7 +16,7 @@ const Post = () => {
     const [ showInputComment, setShowInputComment ] = useState(false);
     const [ commentContent, setCommentContent ] = useState('');
     const [ btnClassName, setBtnClassName ] = useState('btn-outline-secondary btn mt-2 disabled');
-    const url = import.meta.env.VITE_REACT_API_URL || 'http://localhost:4000';
+    const url = import.meta.env.VITE_REACT_API_URL;
     const navigate = useNavigate();
     const dateOptions = {
         weekday: 'short',

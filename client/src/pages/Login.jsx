@@ -13,7 +13,7 @@ const Login = () => {
     const [ isActive, setIsActive ] = useState(false);
 
     const navigate = useNavigate();
-    const url = import.meta.env.VITE_REACT_API_URL || 'http://localhost:4000';
+    const url = import.meta.env.VITE_REACT_API_URL;
 
     const authenticate = (e) => {
         e.preventDefault();

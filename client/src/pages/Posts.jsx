@@ -9,7 +9,7 @@ const Posts = () => {
 
     const [ postData, setPostData ] = useState([]);
     const navigate = useNavigate();
-    const url = import.meta.env.VITE_REACT_API_URL || 'http://localhost:4000';
+    const url = import.meta.env.VITE_REACT_API_URL;
 
     const fetchPosts = () => {
         fetch(`${url}/posts/`, {
