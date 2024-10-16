@@ -203,7 +203,9 @@ const Post = () => {
 
 
                             <Card className="flex justify-content-center py-2">
-                                <h6 className="text-secondary">Comments <span className="text-secondar text-sm">{postDetails.comments.length}</span></h6>
+                                <h6 className="text-secondary">Comments
+                                </h6>
+                                {/* /<span className="text-secondar text-sm">{postDetails.comments.length}</span> */}
 
                                 { postDetails.comments.length > 0 ? (
                                     comments.map(comment => (
