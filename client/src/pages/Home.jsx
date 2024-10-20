@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button, Container, Row, Card} from "react-bootstrap";
 import { useNavigate, Link } from "react-router-dom";
 import { Toaster, toast } from "sonner";
+import UserContext from '../context/UserContext.js';
 
 const HomePage = () => {
+    const { user } = useContext(UserContext);
     const navigate = useNavigate();
     const [ posts, setPosts ] = useState([]);
     const url = import.meta.env.VITE_REACT_API_URL;
@@ -24,10 +26,15 @@ const HomePage = () => {
     }
 
     useEffect(() => {
-        fetchFeatured()
+        if (user.id) {
+            navigate('/posts')
+        } else {
+            fetchFeatured()
+        }
     },[])
 
-    return (
+
+        return (
         <>
             <Container>
                 <div>
@@ -35,20 +42,11 @@ const HomePage = () => {
                 </div>
                 <Row className="flex justify-content-center">
                     <h4 className="text-center m-2">Recent Blog Post</h4>
-                    <div className="d-block flex-column" style={{justifyContent:'center', alignItems:'center'}}>
+                    <div className="d-block flex-column" style={{justifyContent:'center', alignItems:'center'}} key={1}>
                         { posts ? (
-                            posts.map(post => (
-                            <>
-                            <Card className="shadow-sm rounded p-0 my-2">
-                                <Card.Body className="rounded-top">
-                                    <Card.Title>{ post.title }</Card.Title>
-                                    <Card.Text className="text-sm">
-                                        { post.content }
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                            </>
-                            ))
+                            posts.map(post => {
+                                return <CardFeature  key={post._id} title={post.title} content={post.content}/>
+                            })
                         ) : (
                             null
                         )}
@@ -59,6 +57,19 @@ const HomePage = () => {
                 </Row>
             </Container>
         </>
+    )
+}
+const CardFeature = ({ title, content}) => {
+
+    return (
+        <Card className="shadow-sm rounded p-0 my-2">
+            <Card.Body className="rounded-top">
+                <Card.Title>{ title }</Card.Title>
+                <Card.Text className="text-sm">
+                    { content }
+                </Card.Text>
+            </Card.Body>
+        </Card>
     )
 }
 
