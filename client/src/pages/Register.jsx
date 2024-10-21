@@ -20,7 +20,7 @@ const Register = () => {
     const register = (e) => {
         e.preventDefault();
 
-        fetch(`${url}/user/register`, {
+        fetch(`${url}/users/register`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
